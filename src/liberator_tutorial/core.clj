@@ -5,17 +5,16 @@
             [compojure.core :refer [defroutes ANY]]))
 
 (defn now-html []
-  (def ts (System/currentTimeMillis))
-  (format "<html>It's %d milliseconds since the beginning of the epoch." ts)
+  (let [now (System/currentTimeMillis)]
+    (format "<html>It's %d milliseconds since the beginning of the epoch." now)
+    )
   )
 
 (defroutes app
-           
            (ANY "/foo" []
                 (resource :available-media-types ["text/html"]
-                                    :handle-ok (fn [ctx]
+                                    :handle-ok (fn [_]
                                                  (now-html))))
-
            (ANY "/babel" []
                 (resource :available-media-types ["text/plain" "text/html"
                                                   "application/json" "application/clojure;q=0.9"]
